@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_arena/features/discover/presentation/view/discover_view.dart';
+import 'package:my_arena/features/notification/presentation/view/notification_view.dart';
 
 class HomeState {
   final int index;
@@ -9,15 +11,11 @@ class HomeState {
   HomeState.initialState()
       : index = 0,
         lstWidget = [
+          const DiscoverView(),
           const Center(
             child: Text('data'),
           ),
-          const Center(
-            child: Text('data'),
-          ),
-          const Center(
-            child: Text('data'),
-          ),
+          const NotificationView(),
           const Center(
             child: Text('data'),
           ),

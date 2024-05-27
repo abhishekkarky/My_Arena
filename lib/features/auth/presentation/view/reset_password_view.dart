@@ -6,49 +6,41 @@ import 'package:my_arena/core/widget/button.dart';
 import 'package:my_arena/core/widget/passwordtextformfield.dart';
 import 'package:my_arena/core/widget/textformfield.dart';
 
-class LoginView extends ConsumerStatefulWidget {
-  const LoginView({super.key});
+class ResetPasswordView extends ConsumerStatefulWidget {
+  const ResetPasswordView({super.key});
 
   @override
-  ConsumerState<LoginView> createState() => _LoginViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _ResetPasswordViewState();
 }
 
-class _LoginViewState extends ConsumerState<LoginView> {
+class _ResetPasswordViewState extends ConsumerState<ResetPasswordView> {
   final key = GlobalKey<FormState>();
-  final emailController = TextEditingController(text: "");
-  final passwordController = TextEditingController(text: "");
-  String? validateEmail(String? value) {
+  final passwordController = TextEditingController();
+  final otpController = TextEditingController();
+
+  String? validateOTP(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter an email address';
-    }
-    String pattern = r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$';
-    RegExp regExp = RegExp(pattern);
-    if (!regExp.hasMatch(value)) {
-      return 'Please enter a valid email address';
+      return 'Please enter an OTP';
+    } else if (value.length != 4) {
+      return 'OTP must be 4 digits';
     }
     return null;
   }
 
   String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter a password';
+      return 'Please enter password';
     } else if (value.length < 8) {
-      return 'Password cannot be less than 8 characters';
-    } else if (value.length > 15) {
-      return 'Password cannot be more than 15 characters';
+      return 'Password cannot be less than 8 digits';
     }
     return null;
   }
 
   @override
   Widget build(BuildContext context) {
-    // final authState = ref.watch(authViewModelProvider);
     // final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   if (authState.showMessage) {
-    //     ref.read(authViewModelProvider.notifier).resetMessage(false);
-    //   }
-    // });
+    // final isLoading = ref.watch(authViewModelProvider).isLoading;
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -57,21 +49,21 @@ class _LoginViewState extends ConsumerState<LoginView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                    height: 150,
+                    height: 130,
                     width: MediaQuery.of(context).size.width * 0.5,
                     child: Image.asset('assets/images/my_arena_logo.png')),
                 const SizedBox(
                   height: 10,
                 ),
                 const Text(
-                  'MY ARENA',
+                  'Change Password',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 const Text(
-                  'Welcome back !!',
+                  'Check your email for OTP',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
                 Form(
@@ -83,20 +75,20 @@ class _LoginViewState extends ConsumerState<LoginView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Email address',
+                          'OTP',
                           style: TextStyle(fontSize: 18),
                         ),
                         const SizedBox(
                           height: 10,
                         ),
                         maTextFormField(
-                          controller: emailController,
-                          hintText: 'jenniferlawrence@gmail.com',
-                          prefixIcon: FontAwesomeIcons.at,
-                          validator: validateEmail,
+                          controller: otpController,
+                          hintText: '1234',
+                          prefixIcon: FontAwesomeIcons.hashtag,
+                          validator: validateOTP,
                         ),
                         const SizedBox(
-                          height: 10,
+                          height: 15,
                         ),
                         const Text(
                           'Password',
@@ -112,28 +104,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                           validator: validatePassword,
                         ),
                         const SizedBox(
-                          height: 5,
-                        ),
-                        Align(
-                          alignment: AlignmentDirectional.centerEnd,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, AppRoute.requestOTPRoute);
-                            },
-                            child: const Text(
-                              'Forgot Password?',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 12,
+                          height: 20,
                         ),
                         SizedBox(
                           height: 55,
@@ -141,8 +112,6 @@ class _LoginViewState extends ConsumerState<LoginView> {
                           child: MAElevatedButton(
                             onPressed: () async {
                               if (key.currentState!.validate()) {
-                                Navigator.pushNamedAndRemoveUntil(context,
-                                    AppRoute.homeRoute, (route) => false);
                                 // await ref
                                 //     .read(authViewModelProvider.notifier)
                                 //     .loginUser(
@@ -152,24 +121,24 @@ class _LoginViewState extends ConsumerState<LoginView> {
                                 //     );
                               }
                             },
-                            text: 'Login',
+                            text: 'Change',
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 Center(
                   child: GestureDetector(
                     onTap: () {
                       Navigator.pushReplacementNamed(
-                          context, AppRoute.registerRoute);
+                          context, AppRoute.loginRoute);
                     },
                     child: const Text(
-                      "Don't have an account?",
+                      "Back to Login?",
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.black,

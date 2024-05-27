@@ -22,7 +22,7 @@ class _PrimaryViewState extends ConsumerState<PrimaryView> {
             behaviour: SnakeBarBehaviour.floating,
             snakeShape: SnakeShape.indicator,
             elevation: 10,
-            selectedItemColor: const Color(0xFF0B2B3D),
+            selectedItemColor: Colors.black,
             unselectedItemColor: Colors.grey[900]!,
             showSelectedLabels: true,
             showUnselectedLabels: true,
@@ -45,7 +45,7 @@ class _PrimaryViewState extends ConsumerState<PrimaryView> {
             items: const [
               BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.explore,
+                  Icons.home,
                   size: 25,
                 ),
                 label: 'Discover',
@@ -55,14 +55,14 @@ class _PrimaryViewState extends ConsumerState<PrimaryView> {
                   Icons.calendar_month,
                   size: 25,
                 ),
-                label: 'Upcoming',
+                label: 'Bookings',
               ),
               BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.list_alt,
+                  Icons.notifications,
                   size: 25,
                 ),
-                label: 'Your List',
+                label: 'Notification',
               ),
               BottomNavigationBarItem(
                 icon: Icon(
