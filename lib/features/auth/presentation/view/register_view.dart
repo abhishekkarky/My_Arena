@@ -52,7 +52,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
   @override
   Widget build(BuildContext context) {
     // final authState = ref.watch(authViewModelProvider);
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    // final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     //   if (authState.showMessage) {
     //     ref.read(authViewModelProvider.notifier).resetMessage(false);
