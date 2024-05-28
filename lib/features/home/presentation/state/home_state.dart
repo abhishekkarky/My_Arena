@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_arena/features/discover/presentation/view/discover_view.dart';
 import 'package:my_arena/features/notification/presentation/view/notification_view.dart';
+import 'package:my_arena/features/profile/presentation/view/profile_view.dart';
 
 class HomeState {
   final int index;
@@ -16,9 +17,7 @@ class HomeState {
             child: Text('data'),
           ),
           const NotificationView(),
-          const Center(
-            child: Text('data'),
-          ),
+          const ProfileView(),
         ];
 
   HomeState copyWith({

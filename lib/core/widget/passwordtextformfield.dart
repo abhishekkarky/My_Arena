@@ -31,9 +31,10 @@ class MAPasswordTextFormField extends StatefulWidget {
 
 class _MAPasswordTextFormFieldState extends State<MAPasswordTextFormField> {
   bool obscurePassword = true;
-
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return TextFormField(
       controller: widget.controller,
       initialValue: widget.initialValue,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_arena/config/constants/theme_constants.dart';
 
-class MAElevatedButton extends StatelessWidget {
+class MAElevatedButton extends StatefulWidget {
   final VoidCallback onPressed;
   final String text;
   final Color? backgroundColor;
@@ -16,21 +16,31 @@ class MAElevatedButton extends StatelessWidget {
   });
 
   @override
+  State<MAElevatedButton> createState() => _MAElevatedButtonState();
+}
+
+class _MAElevatedButtonState extends State<MAElevatedButton> {
+  @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return ElevatedButton(
-      onPressed: onPressed,
+      onPressed: widget.onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: backgroundColor ?? ThemeConstant.buttonColor,
+        backgroundColor: isDarkMode
+            ? Colors.white
+            : widget.backgroundColor ?? ThemeConstant.buttonColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
       ),
       child: Text(
-        text,
+        widget.text,
         style: TextStyle(
           fontFamily: 'Roboto Slab Regular',
           fontSize: 18,
-          color: textColor ?? Colors.white,
+          color: isDarkMode
+              ? Colors.black
+              : widget.backgroundColor ?? ThemeConstant.darkTextColor,
           fontWeight: FontWeight.w500,
         ),
       ),

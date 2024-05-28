@@ -3,7 +3,7 @@ import 'package:my_arena/config/constants/theme_constants.dart';
 
 class ProfileMenuWidget extends StatelessWidget {
   const ProfileMenuWidget(
-      {Key? key,
+      {super.key,
       required this.title,
       required this.icon,
       required this.onPress,
@@ -11,8 +11,7 @@ class ProfileMenuWidget extends StatelessWidget {
       this.textColor,
       this.iconColor,
       this.subTitle,
-      this.toggle})
-      : super(key: key);
+      this.toggle});
 
   final String title;
   final IconData icon;
@@ -36,7 +35,7 @@ class ProfileMenuWidget extends StatelessWidget {
         child: Icon(
           icon,
           color: iconColor ?? ThemeConstant.buttonColor,
-          size: 25,
+          size: 27,
         ),
       ),
       title: Column(
@@ -44,11 +43,14 @@ class ProfileMenuWidget extends StatelessWidget {
         children: [
           Text(
             title,
+            style: const TextStyle(
+              fontSize: 19,
+            ),
           ),
           Text(
             subTitle ?? '',
             style: const TextStyle(
-              fontSize: 12,
+              fontSize: 13,
             ),
           )
         ],

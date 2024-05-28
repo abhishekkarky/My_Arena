@@ -31,9 +31,7 @@ class AppTheme {
       appBarTheme: AppBarTheme(
         elevation: 10,
         centerTitle: true,
-        backgroundColor: isDark
-            ? ThemeConstant.darkAppBarColor
-            : ThemeConstant.lightAppBarColor,
+        backgroundColor: isDark ? Colors.black : Colors.white,
         titleTextStyle: TextStyle(
           color: isDark
               ? ThemeConstant.darkTextColor
@@ -48,8 +46,8 @@ class AppTheme {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           elevation: 0,
-          foregroundColor: Colors.white,
-          backgroundColor: ThemeConstant.buttonColor,
+          foregroundColor: isDark ? Colors.black : Colors.white,
+          backgroundColor: isDark ? Colors.white : Colors.black,
           textStyle: const TextStyle(
             fontSize: 18,
           ),

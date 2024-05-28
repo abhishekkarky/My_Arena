@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_arena/core/widget/appbar.dart';
 
 class NotificationView extends ConsumerStatefulWidget {
   const NotificationView({super.key});
@@ -12,12 +13,9 @@ class NotificationView extends ConsumerStatefulWidget {
 class _NotificationViewState extends ConsumerState<NotificationView> {
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Notifications'),
-        elevation: 1,
-        backgroundColor: Colors.white,
-      ),
+      appBar: MyAppBar(title: 'Notifications', context: context),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 10, right: 10),

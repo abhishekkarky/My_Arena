@@ -43,7 +43,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
   @override
   Widget build(BuildContext context) {
     // final authState = ref.watch(authViewModelProvider);
-    // final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     //   if (authState.showMessage) {
     //     ref.read(authViewModelProvider.notifier).resetMessage(false);
@@ -121,11 +121,11 @@ class _LoginViewState extends ConsumerState<LoginView> {
                               Navigator.pushNamed(
                                   context, AppRoute.requestOTPRoute);
                             },
-                            child: const Text(
+                            child: Text(
                               'Forgot Password?',
                               style: TextStyle(
                                 fontSize: 14,
-                                color: Colors.black,
+                                color: isDarkMode ? Colors.white : Colors.black,
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 0.5,
                               ),
@@ -168,11 +168,11 @@ class _LoginViewState extends ConsumerState<LoginView> {
                       Navigator.pushReplacementNamed(
                           context, AppRoute.registerRoute);
                     },
-                    child: const Text(
+                    child: Text(
                       "Don't have an account?",
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.black,
+                        color: isDarkMode ? Colors.white : Colors.black,
                         fontWeight: FontWeight.w600,
                         letterSpacing: 0.5,
                       ),

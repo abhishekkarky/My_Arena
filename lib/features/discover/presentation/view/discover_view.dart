@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:my_arena/config/constants/theme_constants.dart';
 import 'package:my_arena/core/widget/button.dart';
 import 'package:my_arena/core/widget/textformfield.dart';
 
@@ -20,7 +21,6 @@ class _DiscoverViewState extends ConsumerState<DiscoverView> {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
     void showFilterOptions(BuildContext context) {
       showModalBottomSheet(
         context: context,
@@ -93,124 +93,198 @@ class _DiscoverViewState extends ConsumerState<DiscoverView> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'MY ARENA',
-          style: TextStyle(color: Colors.black),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 1,
-        actions: [
-          IconButton(
-            onPressed: () => showFilterOptions(context),
-            icon: const FaIcon(
-              FontAwesomeIcons.filter,
-              size: 22,
-              color: Colors.black,
-            ),
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: 5.0, left: 20.0, right: 20.0, bottom: 10),
-              child: SizedBox(
-                height: 50,
-                width: double.infinity,
-                child: TextFormField(
-                  controller: searchController,
-                  onChanged: (value) {
-                    // Implement search logic here
-                  },
-                  decoration: InputDecoration(
-                    labelText: 'Search Futsal',
-                    labelStyle: TextStyle(
-                      color: isDarkMode ? Colors.white70 : Colors.black87,
-                    ),
-                    border: const OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.grey,
+      // appBar: AppBar(
+      //   title: const Text(
+      //     'MY ARENA',
+      //   ),
+      //   backgroundColor: isDarkMode ? Colors.black : Colors.white,
+      //   elevation: 1,
+      //   actions: [
+      //     IconButton(
+      //       onPressed: () => showFilterOptions(context),
+      //       icon: FaIcon(
+      //         FontAwesomeIcons.filter,
+      //         size: 22,
+      //         color: isDarkMode ? Colors.white : Colors.black,
+      //       ),
+      //     ),
+      //   ],
+      // ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          const SizedBox(height: 10),
+                          Builder(
+                            builder: (BuildContext context) {
+                              final currentTime = DateTime.now();
+                              final currentHour = currentTime.hour;
+                              String greeting;
+                              if (currentHour < 12) {
+                                greeting = 'Good Morning';
+                              } else if (currentHour < 18) {
+                                greeting = 'Good Afternoon';
+                              } else {
+                                greeting = 'Good Evening';
+                              }
+                              return Text(
+                                greeting,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 22,
+                                ),
+                              );
+                            },
+                          ),
+                          Text(
+                            'Loading...',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 22,
+                              color: isDarkMode ? Colors.white : Colors.black,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    suffixIcon: const Padding(
-                      padding: EdgeInsets.all(12),
-                      child: FaIcon(
-                        FontAwesomeIcons.magnifyingGlass,
-                        size: 20,
+                    IconButton(
+                      onPressed: () => showFilterOptions(context),
+                      icon: FaIcon(
+                        FontAwesomeIcons.filter,
+                        size: 22,
+                        color: isDarkMode ? Colors.white : Colors.black,
                       ),
                     ),
-                  ),
+                  ],
                 ),
               ),
-            ),
-            _buildFutsalCard(
-              index: 0,
-              imageUrl: 'assets/images/ground.png',
-              name: 'Velocity Futsal',
-              location: 'Ratopul, Kathmandu',
-              size: '12 x 14 ground size',
-              price: 'Rs. 1500 per hr',
-            ),
-            _buildFutsalCard(
-              index: 1,
-              imageUrl: 'assets/images/ground.png',
-              name: 'Arena 2',
-              location: 'Location 2, City',
-              size: '15 x 20 ground size',
-              price: 'Rs. 2000 per hr',
-            ),
-            _buildFutsalCard(
-              index: 1,
-              imageUrl: 'assets/images/ground.png',
-              name: 'Arena 2',
-              location: 'Location 2, City',
-              size: '15 x 20 ground size',
-              price: 'Rs. 2000 per hr',
-            ),
-            _buildFutsalCard(
-              index: 1,
-              imageUrl: 'assets/images/ground.png',
-              name: 'Arena 2',
-              location: 'Location 2, City',
-              size: '15 x 20 ground size',
-              price: 'Rs. 2000 per hr',
-            ),
-            _buildFutsalCard(
-              index: 1,
-              imageUrl: 'assets/images/ground.png',
-              name: 'Arena 2',
-              location: 'Location 2, City',
-              size: '15 x 20 ground size',
-              price: 'Rs. 2000 per hr',
-            ),
-            _buildFutsalCard(
-              index: 1,
-              imageUrl: 'assets/images/ground.png',
-              name: 'Arena 2',
-              location: 'Location 2, City',
-              size: '15 x 20 ground size',
-              price: 'Rs. 2000 per hr',
-            ),
-            _buildFutsalCard(
-              index: 1,
-              imageUrl: 'assets/images/ground.png',
-              name: 'Arena 2',
-              location: 'Location 2, City',
-              size: '15 x 20 ground size',
-              price: 'Rs. 2000 per hr',
-            ),
-            _buildFutsalCard(
-              index: 1,
-              imageUrl: 'assets/images/ground.png',
-              name: 'Arena 2',
-              location: 'Location 2, City',
-              size: '15 x 20 ground size',
-              price: 'Rs. 2000 per hr',
-            ),
-          ],
+              const SizedBox(height: 15),
+              // Padding(
+              //   padding: const EdgeInsets.only(
+              //       top: 5.0, left: 20.0, right: 20.0, bottom: 10),
+              //   child: SizedBox(
+              //     height: 50,
+              //     width: double.infinity,
+              //     child: TextFormField(
+              //       controller: searchController,
+              //       onChanged: (value) {
+              //         // Implement search logic here
+              //       },
+              //       decoration: InputDecoration(
+              //         labelText: 'Search Futsal',
+              //         labelStyle: TextStyle(
+              //           color: isDarkMode ? Colors.white70 : Colors.black87,
+              //         ),
+              //         border: const OutlineInputBorder(
+              //           borderSide: BorderSide(
+              //             color: Colors.grey,
+              //           ),
+              //         ),
+              //         suffixIcon: const Padding(
+              //           padding: EdgeInsets.all(12),
+              //           child: FaIcon(
+              //             FontAwesomeIcons.magnifyingGlass,
+              //             size: 20,
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text('Available Futsal Grounds',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        color: isDarkMode
+                            ? Colors.white
+                            : ThemeConstant.buttonColor,
+                      )),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Column(
+                children: [
+                  _buildFutsalCard(
+                    index: 0,
+                    imageUrl: 'assets/images/ground.png',
+                    name: 'Velocity Futsal',
+                    location: 'Ratopul, Kathmandu',
+                    size: '12 x 14 ground size',
+                    price: 'Rs. 1500 per hr',
+                  ),
+                  _buildFutsalCard(
+                    index: 1,
+                    imageUrl: 'assets/images/ground.png',
+                    name: 'Arena 2',
+                    location: 'Location 2, City',
+                    size: '15 x 20 ground size',
+                    price: 'Rs. 2000 per hr',
+                  ),
+                  _buildFutsalCard(
+                    index: 1,
+                    imageUrl: 'assets/images/ground.png',
+                    name: 'Arena 2',
+                    location: 'Location 2, City',
+                    size: '15 x 20 ground size',
+                    price: 'Rs. 2000 per hr',
+                  ),
+                  _buildFutsalCard(
+                    index: 1,
+                    imageUrl: 'assets/images/ground.png',
+                    name: 'Arena 2',
+                    location: 'Location 2, City',
+                    size: '15 x 20 ground size',
+                    price: 'Rs. 2000 per hr',
+                  ),
+                  _buildFutsalCard(
+                    index: 1,
+                    imageUrl: 'assets/images/ground.png',
+                    name: 'Arena 2',
+                    location: 'Location 2, City',
+                    size: '15 x 20 ground size',
+                    price: 'Rs. 2000 per hr',
+                  ),
+                  _buildFutsalCard(
+                    index: 1,
+                    imageUrl: 'assets/images/ground.png',
+                    name: 'Arena 2',
+                    location: 'Location 2, City',
+                    size: '15 x 20 ground size',
+                    price: 'Rs. 2000 per hr',
+                  ),
+                  _buildFutsalCard(
+                    index: 1,
+                    imageUrl: 'assets/images/ground.png',
+                    name: 'Arena 2',
+                    location: 'Location 2, City',
+                    size: '15 x 20 ground size',
+                    price: 'Rs. 2000 per hr',
+                  ),
+                  _buildFutsalCard(
+                    index: 1,
+                    imageUrl: 'assets/images/ground.png',
+                    name: 'Arena 2',
+                    location: 'Location 2, City',
+                    size: '15 x 20 ground size',
+                    price: 'Rs. 2000 per hr',
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

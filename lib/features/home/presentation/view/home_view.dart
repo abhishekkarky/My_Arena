@@ -13,6 +13,7 @@ class PrimaryView extends ConsumerStatefulWidget {
 class _PrimaryViewState extends ConsumerState<PrimaryView> {
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Consumer(
       builder: (context, watch, _) {
         final homeState = ref.watch(homeViewModelProvider);
@@ -22,8 +23,9 @@ class _PrimaryViewState extends ConsumerState<PrimaryView> {
             behaviour: SnakeBarBehaviour.floating,
             snakeShape: SnakeShape.indicator,
             elevation: 10,
-            selectedItemColor: Colors.black,
-            unselectedItemColor: Colors.grey[900]!,
+            selectedItemColor: isDarkMode ? Colors.white : Colors.black,
+            unselectedItemColor:
+                isDarkMode ? Colors.grey[100]! : Colors.grey[900]!,
             showSelectedLabels: true,
             showUnselectedLabels: true,
             selectedLabelStyle: const TextStyle(
@@ -32,8 +34,8 @@ class _PrimaryViewState extends ConsumerState<PrimaryView> {
             unselectedLabelStyle: const TextStyle(
               fontSize: 14,
             ),
-            backgroundColor: Colors.white,
-            shadowColor: Colors.grey,
+            backgroundColor: isDarkMode ? Colors.black : Colors.white,
+            shadowColor: isDarkMode ? Colors.grey[600]! : Colors.grey,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
