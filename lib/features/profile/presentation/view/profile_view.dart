@@ -318,7 +318,9 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
               SizedBox(
                 width: 200,
                 child: MAElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, AppRoute.editProfileRoute);
+                  },
                   // canAuthenticateWithBiometrics ? updateProfileRoute : null,
                   text: 'Edit Profile',
                 ),
@@ -344,7 +346,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                 icon: FontAwesomeIcons.lock,
                 iconColor: isDark ? Colors.white : Colors.black,
                 onPress: () {
-                  exportSubscriber();
+                  Navigator.pushNamed(context, AppRoute.editPasswordRoute);
                 },
               ),
               const Divider(),

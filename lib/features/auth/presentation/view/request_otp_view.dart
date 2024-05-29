@@ -29,7 +29,7 @@ class _RequestOTPViewState extends ConsumerState<RequestOTPView> {
 
   @override
   Widget build(BuildContext context) {
-    // final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     // final isLoading = ref.watch(authViewModelProvider).isLoading;
     return Scaffold(
       body: SafeArea(
@@ -72,6 +72,7 @@ class _RequestOTPViewState extends ConsumerState<RequestOTPView> {
                           height: 10,
                         ),
                         maTextFormField(
+                          isDarkMode: isDarkMode,
                           controller: emailController,
                           hintText: 'jenniferlawrence@gmail.com',
                           prefixIcon: FontAwesomeIcons.at,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_arena/config/router/app_routes.dart';
+import 'package:my_arena/core/common/snackbar/snackbar.dart';
 import 'package:my_arena/core/widget/button.dart';
 import 'package:my_arena/core/widget/passwordtextformfield.dart';
 import 'package:my_arena/core/widget/textformfield.dart';
@@ -90,6 +91,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                           height: 10,
                         ),
                         maTextFormField(
+                          isDarkMode: isDarkMode,
                           controller: emailController,
                           hintText: 'jenniferlawrence@gmail.com',
                           prefixIcon: FontAwesomeIcons.at,
@@ -143,6 +145,8 @@ class _LoginViewState extends ConsumerState<LoginView> {
                               if (key.currentState!.validate()) {
                                 Navigator.pushNamedAndRemoveUntil(context,
                                     AppRoute.homeRoute, (route) => false);
+                                showMySnackBar(
+                                    message: 'Welcome User', context: context);
                                 // await ref
                                 //     .read(authViewModelProvider.notifier)
                                 //     .loginUser(

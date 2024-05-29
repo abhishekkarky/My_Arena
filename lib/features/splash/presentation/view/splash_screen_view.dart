@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_arena/config/constants/theme_constants.dart';
 import 'package:my_arena/config/router/app_routes.dart';
 import 'package:my_arena/core/shared_prefs/user_shared_prefs.dart';
 
@@ -32,6 +31,7 @@ class _SplashViewState extends ConsumerState<SplashscreenView> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       body: Stack(
         children: [
@@ -50,8 +50,8 @@ class _SplashViewState extends ConsumerState<SplashscreenView> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const CircularProgressIndicator(
-                  color: ThemeConstant.buttonColor,
+                CircularProgressIndicator(
+                  color: isDarkMode ? Colors.white : Colors.black,
                 ),
                 const SizedBox(height: 20),
                 const Text('version : 1.0.0')

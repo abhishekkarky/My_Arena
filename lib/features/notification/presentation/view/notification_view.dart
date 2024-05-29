@@ -29,10 +29,10 @@ class _NotificationViewState extends ConsumerState<NotificationView> {
                   child: Container(
                     height: 40,
                     width: 40,
-                    color: Colors.black,
-                    child: const Icon(
+                    color: isDarkMode ? Colors.white : Colors.black,
+                    child: Icon(
                       Icons.notifications,
-                      color: Colors.white,
+                      color: isDarkMode ? Colors.black : Colors.white,
                     ),
                   ),
                 ),

@@ -39,7 +39,7 @@ class _ResetPasswordViewState extends ConsumerState<ResetPasswordView> {
 
   @override
   Widget build(BuildContext context) {
-    // final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     // final isLoading = ref.watch(authViewModelProvider).isLoading;
     return Scaffold(
       body: SafeArea(
@@ -82,6 +82,7 @@ class _ResetPasswordViewState extends ConsumerState<ResetPasswordView> {
                           height: 10,
                         ),
                         maTextFormField(
+                          isDarkMode: isDarkMode,
                           controller: otpController,
                           hintText: '1234',
                           prefixIcon: FontAwesomeIcons.hashtag,

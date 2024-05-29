@@ -44,6 +44,7 @@ class _DiscoverViewState extends ConsumerState<DiscoverView> {
                       const Text('Location', style: TextStyle(fontSize: 18)),
                       const SizedBox(height: 10),
                       maTextFormField(
+                        isDarkMode: isDarkMode,
                         controller: searchController,
                         hintText: 'Enter Location',
                       ),
@@ -63,8 +64,9 @@ class _DiscoverViewState extends ConsumerState<DiscoverView> {
                             priceRange = values;
                           });
                         },
-                        activeColor: Colors.black,
-                        inactiveColor: Colors.grey[300],
+                        activeColor: isDarkMode ? Colors.white : Colors.black,
+                        inactiveColor:
+                            isDarkMode ? Colors.grey[700] : Colors.grey[300],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

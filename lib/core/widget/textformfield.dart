@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_arena/config/constants/theme_constants.dart';
 
 TextFormField maTextFormField({
+  required bool isDarkMode,
   required TextEditingController controller,
   required String hintText,
   String? validatorText,
@@ -25,6 +26,9 @@ TextFormField maTextFormField({
           return null;
         },
     decoration: InputDecoration(
+      hintStyle: TextStyle(
+        color: isDarkMode ? Colors.grey[600] : Colors.grey,
+      ),
       filled: true,
       fillColor: backgroundColor ?? const Color(0xFFE5E5E5),
       hintText: hintText,
@@ -54,6 +58,9 @@ TextFormField maTextFormField({
         borderRadius: BorderRadius.circular(50),
         borderSide: BorderSide.none,
       ),
+    ),
+    style: const TextStyle(
+      color: Colors.black,
     ),
   );
 }

@@ -48,6 +48,9 @@ class _MAPasswordTextFormFieldState extends State<MAPasswordTextFormField> {
           },
       obscureText: obscurePassword,
       decoration: InputDecoration(
+        hintStyle: TextStyle(
+          color: isDarkMode ? Colors.grey[600] : Colors.grey,
+        ),
         filled: true,
         fillColor: const Color(0xFFE5E5E5),
         hintText: widget.hintText,
@@ -84,6 +87,9 @@ class _MAPasswordTextFormFieldState extends State<MAPasswordTextFormField> {
             });
           },
         ),
+      ),
+      style: const TextStyle(
+        color: Colors.black,
       ),
     );
   }

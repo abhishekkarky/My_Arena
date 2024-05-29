@@ -29,7 +29,7 @@ class AppTheme {
 
       // Change app bar color
       appBarTheme: AppBarTheme(
-        elevation: 10,
+        elevation: 1,
         centerTitle: true,
         backgroundColor: isDark ? Colors.black : Colors.white,
         titleTextStyle: TextStyle(

@@ -4,6 +4,8 @@ import 'package:my_arena/features/auth/presentation/view/request_otp_view.dart';
 import 'package:my_arena/features/auth/presentation/view/reset_password_view.dart';
 import 'package:my_arena/features/discover/presentation/view/discover_view.dart';
 import 'package:my_arena/features/home/presentation/view/home_view.dart';
+import 'package:my_arena/features/profile/presentation/view/edit_password_view.dart';
+import 'package:my_arena/features/profile/presentation/view/edit_profile_view.dart';
 import 'package:my_arena/features/splash/presentation/view/splash_screen_view.dart';
 
 class AppRoute {
@@ -15,6 +17,8 @@ class AppRoute {
   static const String registerRoute = '/register';
   static const String requestOTPRoute = '/request-otp';
   static const String resetPasswordRoute = '/reset-password';
+  static const String editProfileRoute = '/edit-profile';
+  static const String editPasswordRoute = '/edit-password';
 
   static const String discoverRoute = '/discover';
 
@@ -26,7 +30,8 @@ class AppRoute {
       registerRoute: (context) => const RegisterView(),
       requestOTPRoute: (context) => const RequestOTPView(),
       resetPasswordRoute: (context) => const ResetPasswordView(),
-
+      editProfileRoute: (context) => const EditProfileView(),
+      editPasswordRoute: (context) => const EditPasswordView(),
       discoverRoute: (context) => const DiscoverView(),
     };
   }

@@ -52,7 +52,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
   @override
   Widget build(BuildContext context) {
     // final authState = ref.watch(authViewModelProvider);
-    // final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     //   if (authState.showMessage) {
     //     ref.read(authViewModelProvider.notifier).resetMessage(false);
@@ -99,6 +99,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                           height: 10,
                         ),
                         maTextFormField(
+                          isDarkMode: isDarkMode,
                           controller: nameController,
                           hintText: 'John Doe',
                           prefixIcon: FontAwesomeIcons.user,
@@ -115,6 +116,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                           height: 10,
                         ),
                         maTextFormField(
+                          isDarkMode: isDarkMode,
                           controller: emailController,
                           hintText: 'jenniferlawrence@gmail.com',
                           prefixIcon: FontAwesomeIcons.at,
