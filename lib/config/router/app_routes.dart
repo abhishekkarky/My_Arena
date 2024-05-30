@@ -3,6 +3,9 @@ import 'package:my_arena/features/auth/presentation/view/register_view.dart';
 import 'package:my_arena/features/auth/presentation/view/request_otp_view.dart';
 import 'package:my_arena/features/auth/presentation/view/reset_password_view.dart';
 import 'package:my_arena/features/discover/presentation/view/discover_view.dart';
+import 'package:my_arena/features/discover/presentation/view/individual_futsal_view.dart';
+import 'package:my_arena/features/discover/presentation/view/map_view.dart';
+import 'package:my_arena/features/favourite/presentation/view/favourites_view.dart';
 import 'package:my_arena/features/home/presentation/view/home_view.dart';
 import 'package:my_arena/features/profile/presentation/view/edit_password_view.dart';
 import 'package:my_arena/features/profile/presentation/view/edit_profile_view.dart';
@@ -19,8 +22,11 @@ class AppRoute {
   static const String resetPasswordRoute = '/reset-password';
   static const String editProfileRoute = '/edit-profile';
   static const String editPasswordRoute = '/edit-password';
+  static const String favouritesRoute = '/favourites';
 
   static const String discoverRoute = '/discover';
+  static const String individualFutsalRoute = '/individual-futsal';
+  static const String mapViewRoute = '/map-view';
 
   static getApplicationRoute() {
     return {
@@ -33,6 +39,9 @@ class AppRoute {
       editProfileRoute: (context) => const EditProfileView(),
       editPasswordRoute: (context) => const EditPasswordView(),
       discoverRoute: (context) => const DiscoverView(),
+      favouritesRoute: (context) => const FavouritesView(),
+      individualFutsalRoute: (context) => const IndividualFutsalView(),
+      mapViewRoute: (context) => const FutsalMapView(),
     };
   }
 }

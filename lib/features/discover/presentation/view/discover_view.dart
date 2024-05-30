@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_arena/config/constants/theme_constants.dart';
+import 'package:my_arena/config/router/app_routes.dart';
 import 'package:my_arena/core/widget/button.dart';
 import 'package:my_arena/core/widget/textformfield.dart';
 
@@ -302,10 +303,13 @@ class _DiscoverViewState extends ConsumerState<DiscoverView> {
   }) {
     return GestureDetector(
       onTap: () {
-        print("Changed index to $index");
+        Navigator.pushNamed(
+          context,
+          AppRoute.individualFutsalRoute,
+        );
       },
       child: Card(
-        elevation: 2,
+        elevation: 3,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),

@@ -61,10 +61,10 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
     }
   }
 
-  File? _img;
+  // File? _img;
   Future _browseImage(ImageSource imageSource) async {
     try {
-      final image = await ImagePicker().pickImage(source: imageSource);
+      // final image = await ImagePicker().pickImage(source: imageSource);
       // if (image != null) {
       //   _img = File(image.path);
       //   ref.read(authViewModelProvider.notifier).uploadImage(_img!);
@@ -336,7 +336,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                 icon: FontAwesomeIcons.solidHeart,
                 iconColor: Colors.red,
                 onPress: () {
-                  Navigator.pushNamed(context, AppRoute.loginRoute);
+                  Navigator.pushNamed(context, AppRoute.favouritesRoute);
                 },
               ),
               const Divider(),
