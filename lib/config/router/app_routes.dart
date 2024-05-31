@@ -2,6 +2,7 @@ import 'package:my_arena/features/auth/presentation/view/login_view.dart';
 import 'package:my_arena/features/auth/presentation/view/register_view.dart';
 import 'package:my_arena/features/auth/presentation/view/request_otp_view.dart';
 import 'package:my_arena/features/auth/presentation/view/reset_password_view.dart';
+import 'package:my_arena/features/bookings/presentation/view/bookings_view.dart';
 import 'package:my_arena/features/discover/presentation/view/discover_view.dart';
 import 'package:my_arena/features/discover/presentation/view/individual_futsal_view.dart';
 import 'package:my_arena/features/discover/presentation/view/map_view.dart';
@@ -23,6 +24,7 @@ class AppRoute {
   static const String editProfileRoute = '/edit-profile';
   static const String editPasswordRoute = '/edit-password';
   static const String favouritesRoute = '/favourites';
+  static const String bookingsRoute = '/bookings';
 
   static const String discoverRoute = '/discover';
   static const String individualFutsalRoute = '/individual-futsal';
@@ -42,6 +44,7 @@ class AppRoute {
       favouritesRoute: (context) => const FavouritesView(),
       individualFutsalRoute: (context) => const IndividualFutsalView(),
       mapViewRoute: (context) => const FutsalMapView(),
+      bookingsRoute: (context) => const BookingsView(),
     };
   }
 }

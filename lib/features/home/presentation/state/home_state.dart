@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_arena/features/bookings/presentation/view/bookings_view.dart';
 import 'package:my_arena/features/discover/presentation/view/discover_view.dart';
 import 'package:my_arena/features/notification/presentation/view/notification_view.dart';
 import 'package:my_arena/features/profile/presentation/view/profile_view.dart';
@@ -13,9 +14,7 @@ class HomeState {
       : index = 0,
         lstWidget = [
           const DiscoverView(),
-          const Center(
-            child: Text('data'),
-          ),
+          const BookingsView(),
           const NotificationView(),
           const ProfileView(),
         ];

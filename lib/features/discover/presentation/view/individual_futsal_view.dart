@@ -183,6 +183,7 @@ class _IndividualFutsalViewState extends ConsumerState<IndividualFutsalView> {
                           : '',
                     ),
                     decoration: InputDecoration(
+                      hintStyle: const TextStyle(color: Colors.black),
                       hintText: "Select Date and Time",
                       filled: true,
                       fillColor: const Color(0xFFE5E5E5),
@@ -215,12 +216,37 @@ class _IndividualFutsalViewState extends ConsumerState<IndividualFutsalView> {
                         initialDate: selectedDateTime ?? DateTime.now(),
                         firstDate: DateTime(2000),
                         lastDate: DateTime(2100),
+                        builder: (context, child) {
+                          return Theme(
+                            data: Theme.of(context).copyWith(
+                              colorScheme: const ColorScheme.light(
+                                primary: Colors.blue,
+                                onPrimary: Colors.white,
+                                onSurface: Colors.black,
+                              ),
+                            ),
+                            child: child!,
+                          );
+                        },
                       );
                       if (picked != null) {
                         final TimeOfDay? timePicked = await showTimePicker(
+                          builder: (context, child) {
+                            return Theme(
+                              data: Theme.of(context).copyWith(
+                                colorScheme: const ColorScheme.light(
+                                  primary: Colors.blue,
+                                  onPrimary: Colors.white,
+                                  onSurface: Colors.black,
+                                ),
+                              ),
+                              child: child!,
+                            );
+                          },
                           context: context,
                           initialTime: TimeOfDay.fromDateTime(
-                              selectedDateTime ?? DateTime.now()),
+                            selectedDateTime ?? DateTime.now(),
+                          ),
                         );
                         if (timePicked != null) {
                           setState(() {
@@ -235,6 +261,9 @@ class _IndividualFutsalViewState extends ConsumerState<IndividualFutsalView> {
                         }
                       }
                     },
+                    style: const TextStyle(
+                      color: Colors.black,
+                    ),
                   ),
                 ],
               ),

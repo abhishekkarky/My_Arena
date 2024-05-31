@@ -9,7 +9,9 @@ TextFormField maTextFormField({
   String? initialValue,
   TextInputType? keyboardType,
   IconData? prefixIcon,
+  IconData? suffixIcon,
   Color prefixIconColor = ThemeConstant.buttonColor,
+  Color suffixIconColor = ThemeConstant.buttonColor,
   Color? prefixIconBackgroundColor,
   Color? backgroundColor,
   String? Function(String?)? validator,
@@ -32,6 +34,20 @@ TextFormField maTextFormField({
       filled: true,
       fillColor: backgroundColor ?? const Color(0xFFE5E5E5),
       hintText: hintText,
+      suffixIcon: suffixIcon != null
+          ? Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: prefixIconBackgroundColor,
+                borderRadius: BorderRadius.circular(50),
+              ),
+              child: Icon(
+                suffixIcon,
+                color: suffixIconColor,
+                size: 18,
+              ),
+            )
+          : null,
       prefixIcon: prefixIcon != null
           ? Container(
               padding: const EdgeInsets.all(8),

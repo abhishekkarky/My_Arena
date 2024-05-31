@@ -96,23 +96,6 @@ class _DiscoverViewState extends ConsumerState<DiscoverView> {
     }
 
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text(
-      //     'MY ARENA',
-      //   ),
-      //   backgroundColor: isDarkMode ? Colors.black : Colors.white,
-      //   elevation: 1,
-      //   actions: [
-      //     IconButton(
-      //       onPressed: () => showFilterOptions(context),
-      //       icon: FaIcon(
-      //         FontAwesomeIcons.filter,
-      //         size: 22,
-      //         color: isDarkMode ? Colors.white : Colors.black,
-      //       ),
-      //     ),
-      //   ],
-      // ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -171,38 +154,6 @@ class _DiscoverViewState extends ConsumerState<DiscoverView> {
                 ),
               ),
               const SizedBox(height: 15),
-              // Padding(
-              //   padding: const EdgeInsets.only(
-              //       top: 5.0, left: 20.0, right: 20.0, bottom: 10),
-              //   child: SizedBox(
-              //     height: 50,
-              //     width: double.infinity,
-              //     child: TextFormField(
-              //       controller: searchController,
-              //       onChanged: (value) {
-              //         // Implement search logic here
-              //       },
-              //       decoration: InputDecoration(
-              //         labelText: 'Search Futsal',
-              //         labelStyle: TextStyle(
-              //           color: isDarkMode ? Colors.white70 : Colors.black87,
-              //         ),
-              //         border: const OutlineInputBorder(
-              //           borderSide: BorderSide(
-              //             color: Colors.grey,
-              //           ),
-              //         ),
-              //         suffixIcon: const Padding(
-              //           padding: EdgeInsets.all(12),
-              //           child: FaIcon(
-              //             FontAwesomeIcons.magnifyingGlass,
-              //             size: 20,
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: Align(
