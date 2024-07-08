@@ -5,6 +5,9 @@ import 'package:my_arena/config/constants/theme_constants.dart';
 import 'package:my_arena/config/router/app_routes.dart';
 import 'package:my_arena/core/widget/button.dart';
 import 'package:my_arena/core/widget/textformfield.dart';
+import 'package:my_arena/features/auth/presentation/view_model/auth_view_model.dart';
+import 'package:my_arena/features/discover/domain/entity/futsal_entity.dart';
+import 'package:my_arena/features/discover/presentation/view_model/futsal_view_model.dart';
 
 class DiscoverView extends ConsumerStatefulWidget {
   const DiscoverView({super.key});
@@ -16,11 +19,12 @@ class DiscoverView extends ConsumerStatefulWidget {
 class _DiscoverViewState extends ConsumerState<DiscoverView> {
   final TextEditingController searchController = TextEditingController();
   RangeValues priceRange = const RangeValues(1000, 2000);
-
   final List<bool> _favorites = [false, false];
 
   @override
   Widget build(BuildContext context) {
+    final userState = ref.watch(authViewModelProvider);
+    final futsalState = ref.watch(futsalViewModelProvider);
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     void showFilterOptions(BuildContext context) {
       showModalBottomSheet(
@@ -132,7 +136,7 @@ class _DiscoverViewState extends ConsumerState<DiscoverView> {
                             },
                           ),
                           Text(
-                            'Loading...',
+                            userState.userDetail?.fullName ?? 'Loading...',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 22,
@@ -169,74 +173,15 @@ class _DiscoverViewState extends ConsumerState<DiscoverView> {
                 ),
               ),
               const SizedBox(height: 10),
-              Column(
-                children: [
-                  _buildFutsalCard(
-                    index: 0,
-                    imageUrl: 'assets/images/ground.png',
-                    name: 'Velocity Futsal',
-                    location: 'Ratopul, Kathmandu',
-                    size: '12 x 14 ground size',
-                    price: 'Rs. 1500 per hr',
-                  ),
-                  _buildFutsalCard(
-                    index: 1,
-                    imageUrl: 'assets/images/ground.png',
-                    name: 'Arena 2',
-                    location: 'Location 2, City',
-                    size: '15 x 20 ground size',
-                    price: 'Rs. 2000 per hr',
-                  ),
-                  _buildFutsalCard(
-                    index: 1,
-                    imageUrl: 'assets/images/ground.png',
-                    name: 'Arena 2',
-                    location: 'Location 2, City',
-                    size: '15 x 20 ground size',
-                    price: 'Rs. 2000 per hr',
-                  ),
-                  _buildFutsalCard(
-                    index: 1,
-                    imageUrl: 'assets/images/ground.png',
-                    name: 'Arena 2',
-                    location: 'Location 2, City',
-                    size: '15 x 20 ground size',
-                    price: 'Rs. 2000 per hr',
-                  ),
-                  _buildFutsalCard(
-                    index: 1,
-                    imageUrl: 'assets/images/ground.png',
-                    name: 'Arena 2',
-                    location: 'Location 2, City',
-                    size: '15 x 20 ground size',
-                    price: 'Rs. 2000 per hr',
-                  ),
-                  _buildFutsalCard(
-                    index: 1,
-                    imageUrl: 'assets/images/ground.png',
-                    name: 'Arena 2',
-                    location: 'Location 2, City',
-                    size: '15 x 20 ground size',
-                    price: 'Rs. 2000 per hr',
-                  ),
-                  _buildFutsalCard(
-                    index: 1,
-                    imageUrl: 'assets/images/ground.png',
-                    name: 'Arena 2',
-                    location: 'Location 2, City',
-                    size: '15 x 20 ground size',
-                    price: 'Rs. 2000 per hr',
-                  ),
-                  _buildFutsalCard(
-                    index: 1,
-                    imageUrl: 'assets/images/ground.png',
-                    name: 'Arena 2',
-                    location: 'Location 2, City',
-                    size: '15 x 20 ground size',
-                    price: 'Rs. 2000 per hr',
-                  ),
-                ],
-              ),
+              ...futsalState.futsals.map((futsal) => _buildFutsalCard(
+                    futsal: futsal,
+                    imageUrl: futsal.futsalImageUrl ?? '',
+                    name: futsal.name ?? '',
+                    location: futsal.location ?? '',
+                    rating: futsal.rating ?? 0,
+                    size: futsal.groundSize ?? '',
+                    price: futsal.price.toString(),
+                  )),
             ],
           ),
         ),
@@ -245,19 +190,18 @@ class _DiscoverViewState extends ConsumerState<DiscoverView> {
   }
 
   Widget _buildFutsalCard({
-    required int index,
+    required FutsalEntity futsal,
     required String imageUrl,
     required String name,
     required String location,
     required String size,
+    required int rating,
     required String price,
   }) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(
-          context,
-          AppRoute.individualFutsalRoute,
-        );
+        Navigator.pushNamed(context, AppRoute.individualFutsalRoute,
+            arguments: futsal);
       },
       child: Card(
         elevation: 3,
@@ -272,7 +216,8 @@ class _DiscoverViewState extends ConsumerState<DiscoverView> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Image.asset(
-                  imageUrl,
+                  'assets/images/ground.png',
+                  // imageUrl,
                   width: 130,
                   height: 130,
                   fit: BoxFit.cover,
@@ -298,9 +243,9 @@ class _DiscoverViewState extends ConsumerState<DiscoverView> {
                     const SizedBox(height: 5),
                     Row(
                       children: List.generate(5, (index) {
-                        return const Icon(
+                        return Icon(
                           Icons.star,
-                          color: Colors.orange,
+                          color: index < rating ? Colors.orange : Colors.grey,
                           size: 20,
                         );
                       }),
@@ -311,22 +256,22 @@ class _DiscoverViewState extends ConsumerState<DiscoverView> {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      price,
+                      'Rs. $price',
                     ),
                   ],
                 ),
               ),
-              IconButton(
-                icon: Icon(
-                  Icons.favorite,
-                  color: _favorites[index] ? Colors.red : Colors.grey,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _favorites[index] = !_favorites[index];
-                  });
-                },
-              ),
+              // IconButton(
+              //   icon: Icon(
+              //     Icons.favorite,
+              //     color: _favorites[index] ? Colors.red : Colors.grey,
+              //   ),
+              //   onPressed: () {
+              //     setState(() {
+              //       _favorites[index] = !_favorites[index];
+              //     });
+              //   },
+              // ),
             ],
           ),
         ),

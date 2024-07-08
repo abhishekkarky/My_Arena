@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_arena/core/widget/button.dart';
 import 'package:my_arena/core/widget/textformfield.dart';
+import 'package:my_arena/features/auth/presentation/view_model/auth_view_model.dart';
 
 class EditProfileView extends ConsumerStatefulWidget {
   const EditProfileView({super.key});
@@ -28,11 +29,11 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    // final authState = ref.watch(authViewModelProvider);
-    // nameController.text = authState.userDetail?.fullName ?? '';
-    // emailController.text = authState.userDetail?.email ?? '';
-    // addressController.text = authState.userDetail?.address ?? '';
-    // numberController.text = authState.userDetail?.number ?? '';
+    final authState = ref.watch(authViewModelProvider);
+    nameController.text = authState.userDetail?.fullName ?? '';
+    emailController.text = authState.userDetail?.email ?? '';
+    addressController.text = authState.userDetail?.address ?? '';
+    numberController.text = authState.userDetail?.number ?? '';
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Profile'),
@@ -115,14 +116,14 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
                     child: MAElevatedButton(
                       onPressed: () async {
                         if (key.currentState!.validate()) {
-                          // await ref
-                          //     .read(authViewModelProvider.notifier)
-                          //     .updateUser(
-                          //         nameController.text,
-                          //         emailController.text,
-                          //         addressController.text,
-                          //         numberController.text,
-                          //         context);
+                          await ref
+                              .read(authViewModelProvider.notifier)
+                              .updateUser(
+                                  nameController.text,
+                                  emailController.text,
+                                  addressController.text,
+                                  numberController.text,
+                                  context);
                         }
                       },
                       text: 'Update',

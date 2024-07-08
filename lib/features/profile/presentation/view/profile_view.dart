@@ -10,7 +10,9 @@ import 'package:local_auth/local_auth.dart';
 import 'package:my_arena/config/constants/theme_constants.dart';
 import 'package:my_arena/config/router/app_routes.dart';
 import 'package:my_arena/core/common/provider/is_dark_theme.dart';
+import 'package:my_arena/core/common/snackbar/snackbar.dart';
 import 'package:my_arena/core/widget/button.dart';
+import 'package:my_arena/features/auth/presentation/view_model/auth_view_model.dart';
 import 'package:my_arena/features/profile/presentation/widget/profile_menu_widget.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -32,7 +34,6 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
   String? fullName;
   String? email;
   String? image;
-  // late AuthEntity userDetail;
 
   @override
   void initState() {
@@ -61,20 +62,20 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
     }
   }
 
-  // File? _img;
+  File? _img;
   Future _browseImage(ImageSource imageSource) async {
     try {
-      // final image = await ImagePicker().pickImage(source: imageSource);
-      // if (image != null) {
-      //   _img = File(image.path);
-      //   ref.read(authViewModelProvider.notifier).uploadImage(_img!);
-      //   showMySnackBar(
-      //     message: 'Image updated Successfully!!',
-      //     context: context,
-      //   );
-      // } else {
-      //   return;
-      // }
+      final image = await ImagePicker().pickImage(source: imageSource);
+      if (image != null) {
+        _img = File(image.path);
+        ref.read(authViewModelProvider.notifier).uploadImage(_img!);
+        showMySnackBar(
+          message: 'Image updated Successfully!!',
+          context: context,
+        );
+      } else {
+        return;
+      }
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -83,14 +84,14 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
   void _initializeProximity() {
     proximityStream = proximityEvents!.listen((ProximityEvent event) async {
       if (event.proximity < 1) {
-        // ref.read(authViewModelProvider.notifier).logout(context);
+        ref.read(authViewModelProvider.notifier).logout(context);
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // final userState = ref.watch(authViewModelProvider);
+    final userState = ref.watch(authViewModelProvider);
     // final subscriberState = ref.watch(subscriberViewModelProvider);
 
     // void downloadFile() async {
@@ -137,56 +138,6 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
     //     ));
     //   }
     // }
-
-    void exportSubscriber() {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text(
-            'Are you sure you want to export subscribers?',
-            style: TextStyle(
-              fontSize: 16,
-            ),
-          ),
-          actions: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.green),
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                  // downloadFile();
-                },
-                child: const Text(
-                  'Yes',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.red),
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text(
-                  'No',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
@@ -272,15 +223,14 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                       height: 120,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(100),
-                        child: Image.asset('assets/images/userImage.png'),
-                        // child: Image.network(
-                        //   userState.userDetail?.userImageUrl ??
-                        //       'assets/images/userImage.png',
-                        //   errorBuilder: (context, error, stackTrace) {
-                        //     return Image.asset('assets/images/userImage.png');
-                        //   },
-                        //   fit: BoxFit.cover,
-                        // ),
+                        child: Image.network(
+                          userState.userDetail?.userImageUrl ??
+                              'assets/images/userImage.png',
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.asset('assets/images/userImage.png');
+                          },
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                     Positioned(
@@ -305,11 +255,11 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
               ),
               _gap,
               _gap,
-              Text('Abhishek karki',
+              Text(userState.userDetail?.fullName ?? '',
                   style: Theme.of(context).textTheme.headlineMedium),
               _gap,
-              const Text('abhishekkarki40@gmail.com',
-                  style: TextStyle(
+              Text(userState.userDetail?.number ?? '',
+                  style: const TextStyle(
                     fontSize: 15,
                   )),
               const SizedBox(
@@ -321,7 +271,6 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                   onPressed: () {
                     Navigator.pushNamed(context, AppRoute.editProfileRoute);
                   },
-                  // canAuthenticateWithBiometrics ? updateProfileRoute : null,
                   text: 'Edit Profile',
                 ),
               ),
@@ -357,7 +306,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                 iconColor: Colors.red,
                 endIcon: false,
                 onPress: () {
-                  // ref.read(authViewModelProvider.notifier).logout(context);
+                  ref.read(authViewModelProvider.notifier).logout(context);
                 },
               ),
             ],

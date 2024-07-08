@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:my_arena/core/common/snackbar/snackbar.dart';
 import 'package:my_arena/core/widget/button.dart';
 import 'package:my_arena/core/widget/passwordtextformfield.dart';
+import 'package:my_arena/features/auth/presentation/view_model/auth_view_model.dart';
 
 class EditPasswordView extends ConsumerStatefulWidget {
   const EditPasswordView({super.key});
@@ -46,16 +48,16 @@ class _EditPasswordViewState extends ConsumerState<EditPasswordView> {
   );
   @override
   Widget build(BuildContext context) {
-    // final authState = ref.watch(authViewModelProvider);
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   if (authState.showMessage) {
-    //     showMySnackBar(
-    //       message: authState.message!,
-    //       context: context,
-    //     );
-    //     ref.read(authViewModelProvider.notifier).resetMessage(false);
-    //   }
-    // });
+    final authState = ref.watch(authViewModelProvider);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (authState.showMessage) {
+        showMySnackBar(
+          message: authState.message!,
+          context: context,
+        );
+        ref.read(authViewModelProvider.notifier).resetMessage(false);
+      }
+    });
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -119,23 +121,23 @@ class _EditPasswordViewState extends ConsumerState<EditPasswordView> {
                 child: MAElevatedButton(
                   onPressed: () async {
                     if (key.currentState!.validate()) {
-                      // if (newPasswordController.text ==
-                      //     confirmNewPasswordController.text) {
-                      //   await ref
-                      //       .read(authViewModelProvider.notifier)
-                      //       .updateUserPassword(
-                      //         currentPasswordController.text,
-                      //         newPasswordController.text,
-                      //         context,
-                      //       );
-                      // } else {
-                      //   showMySnackBar(
-                      //     message:
-                      //         'New password and confirm password do not match',
-                      //     context: context,
-                      //     color: Colors.red[900],
-                      //   );
-                      // }
+                      if (newPasswordController.text ==
+                          confirmNewPasswordController.text) {
+                        await ref
+                            .read(authViewModelProvider.notifier)
+                            .updateUserPassword(
+                              currentPasswordController.text,
+                              newPasswordController.text,
+                              context,
+                            );
+                      } else {
+                        showMySnackBar(
+                          message:
+                              'New password and confirm password do not match',
+                          context: context,
+                          color: Colors.red[900],
+                        );
+                      }
                     }
                   },
                   text: 'Change',

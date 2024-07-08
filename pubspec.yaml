@@ -60,13 +60,14 @@ dependencies:
   connectivity_plus: ^2.3.8
   flutter_charts: ^0.5.2
   syncfusion_flutter_charts: ^24.2.7+1
-  http: ^1.2.0
+  http: ^1.2.1
   test_cov_console: ^0.2.2
   flutter_slidable: ^3.0.1
   flutter_html: ^3.0.0-beta.2
   flutter_snake_navigationbar: ^0.6.1
   flutter_map: ^6.1.0
   latlong2: ^0.9.1
+  multi_select_flutter: ^4.1.3
 
 dev_dependencies:
   flutter_test:

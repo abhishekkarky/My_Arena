@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_arena/config/router/app_routes.dart';
-import 'package:my_arena/core/common/snackbar/snackbar.dart';
 import 'package:my_arena/core/widget/button.dart';
 import 'package:my_arena/core/widget/passwordtextformfield.dart';
 import 'package:my_arena/core/widget/textformfield.dart';
+import 'package:my_arena/features/auth/presentation/view_model/auth_view_model.dart';
 
 class LoginView extends ConsumerStatefulWidget {
   const LoginView({super.key});
@@ -16,16 +16,14 @@ class LoginView extends ConsumerStatefulWidget {
 
 class _LoginViewState extends ConsumerState<LoginView> {
   final key = GlobalKey<FormState>();
-  final emailController = TextEditingController(text: "");
+  final numberController = TextEditingController(text: "");
   final passwordController = TextEditingController(text: "");
-  String? validateEmail(String? value) {
+  String? validateNumber(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter an email address';
+      return 'Please enter a number';
     }
-    String pattern = r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$';
-    RegExp regExp = RegExp(pattern);
-    if (!regExp.hasMatch(value)) {
-      return 'Please enter a valid email address';
+    if (value.length < 10 || value.length > 10) {
+      return 'Please enter a valid number';
     }
     return null;
   }
@@ -43,13 +41,13 @@ class _LoginViewState extends ConsumerState<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    // final authState = ref.watch(authViewModelProvider);
+    final authState = ref.watch(authViewModelProvider);
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   if (authState.showMessage) {
-    //     ref.read(authViewModelProvider.notifier).resetMessage(false);
-    //   }
-    // });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (authState.showMessage) {
+        ref.read(authViewModelProvider.notifier).resetMessage(false);
+      }
+    });
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -84,7 +82,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Email address',
+                          'Number',
                           style: TextStyle(fontSize: 18),
                         ),
                         const SizedBox(
@@ -92,10 +90,10 @@ class _LoginViewState extends ConsumerState<LoginView> {
                         ),
                         maTextFormField(
                           isDarkMode: isDarkMode,
-                          controller: emailController,
-                          hintText: 'jenniferlawrence@gmail.com',
-                          prefixIcon: FontAwesomeIcons.at,
-                          validator: validateEmail,
+                          controller: numberController,
+                          hintText: '9800000000',
+                          prefixIcon: FontAwesomeIcons.phone,
+                          validator: validateNumber,
                         ),
                         const SizedBox(
                           height: 10,
@@ -143,17 +141,13 @@ class _LoginViewState extends ConsumerState<LoginView> {
                           child: MAElevatedButton(
                             onPressed: () async {
                               if (key.currentState!.validate()) {
-                                Navigator.pushNamedAndRemoveUntil(context,
-                                    AppRoute.homeRoute, (route) => false);
-                                showMySnackBar(
-                                    message: 'Welcome User', context: context);
-                                // await ref
-                                //     .read(authViewModelProvider.notifier)
-                                //     .loginUser(
-                                //       context,
-                                //       emailController.text,
-                                //       passwordController.text,
-                                //     );
+                                await ref
+                                    .read(authViewModelProvider.notifier)
+                                    .loginUser(
+                                      context,
+                                      numberController.text,
+                                      passwordController.text,
+                                    );
                               }
                             },
                             text: 'Login',

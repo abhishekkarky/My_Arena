@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_arena/config/router/app_routes.dart';
 import 'package:my_arena/core/widget/appbar.dart';
 
 class FavouritesView extends ConsumerStatefulWidget {
@@ -102,7 +103,7 @@ class _FavouritesViewState extends ConsumerState<FavouritesView> {
   }) {
     return GestureDetector(
       onTap: () {
-        print("Changed index to $index");
+        Navigator.pushNamed(context, AppRoute.individualFutsalRoute);
       },
       child: Card(
         elevation: 2,
