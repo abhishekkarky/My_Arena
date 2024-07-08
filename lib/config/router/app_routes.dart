@@ -6,7 +6,7 @@ import 'package:my_arena/features/bookings/presentation/view/bookings_view.dart'
 import 'package:my_arena/features/discover/presentation/view/discover_view.dart';
 import 'package:my_arena/features/discover/presentation/view/individual_futsal_view.dart';
 import 'package:my_arena/features/discover/presentation/view/map_view.dart';
-import 'package:my_arena/features/favourite/presentation/view/favourites_view.dart';
+import 'package:my_arena/features/profile/presentation/view/favourites_view.dart';
 import 'package:my_arena/features/home/presentation/view/home_view.dart';
 import 'package:my_arena/features/profile/presentation/view/edit_password_view.dart';
 import 'package:my_arena/features/profile/presentation/view/edit_profile_view.dart';

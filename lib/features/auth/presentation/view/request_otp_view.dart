@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_arena/config/router/app_routes.dart';
 import 'package:my_arena/core/widget/button.dart';
 import 'package:my_arena/core/widget/textformfield.dart';
+import 'package:my_arena/features/auth/presentation/view_model/auth_view_model.dart';
 
 class RequestOTPView extends ConsumerStatefulWidget {
   const RequestOTPView({super.key});
@@ -14,15 +15,13 @@ class RequestOTPView extends ConsumerStatefulWidget {
 
 class _RequestOTPViewState extends ConsumerState<RequestOTPView> {
   final key = GlobalKey<FormState>();
-  final emailController = TextEditingController();
-  String? validateEmail(String? value) {
+  final numberController = TextEditingController();
+  String? validatePhone(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter an email address';
+      return 'Please enter a number';
     }
-    String pattern = r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$';
-    RegExp regExp = RegExp(pattern);
-    if (!regExp.hasMatch(value)) {
-      return 'Please enter a valid email address';
+    if (value.length < 10 || value.length > 10) {
+      return 'Please enter a valid number';
     }
     return null;
   }
@@ -30,7 +29,6 @@ class _RequestOTPViewState extends ConsumerState<RequestOTPView> {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    // final isLoading = ref.watch(authViewModelProvider).isLoading;
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -65,7 +63,7 @@ class _RequestOTPViewState extends ConsumerState<RequestOTPView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Email',
+                          'Number',
                           style: TextStyle(fontSize: 18),
                         ),
                         const SizedBox(
@@ -73,10 +71,10 @@ class _RequestOTPViewState extends ConsumerState<RequestOTPView> {
                         ),
                         maTextFormField(
                           isDarkMode: isDarkMode,
-                          controller: emailController,
-                          hintText: 'jenniferlawrence@gmail.com',
-                          prefixIcon: FontAwesomeIcons.at,
-                          validator: validateEmail,
+                          controller: numberController,
+                          hintText: '9800000000',
+                          prefixIcon: FontAwesomeIcons.phone,
+                          validator: validatePhone,
                         ),
                         const SizedBox(
                           height: 20,
@@ -89,13 +87,12 @@ class _RequestOTPViewState extends ConsumerState<RequestOTPView> {
                               if (key.currentState!.validate()) {
                                 Navigator.pushNamed(
                                     context, AppRoute.resetPasswordRoute);
-                                // await ref
-                                //     .read(authViewModelProvider.notifier)
-                                //     .loginUser(
-                                //       context,
-                                //       emailController.text,
-                                //       passwordController.text,
-                                //     );
+                                await ref
+                                    .read(authViewModelProvider.notifier)
+                                    .requestOTP(
+                                      context,
+                                      numberController.text,
+                                    );
                               }
                             },
                             text: 'Request OTP',

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_arena/features/discover/domain/usecase/futsal_use_case.dart';
 import 'package:my_arena/features/discover/presentation/state/futsal_state.dart';
@@ -47,6 +48,16 @@ class FutsalViewModel extends StateNotifier<FutsalState> {
     } catch (e) {
       state = state.copyWith(isLoading: false);
     }
+  }
+
+  void applyFilters(String searchQuery, RangeValues priceRange) {
+    var filteredFutsals = state.futsals.where((futsal) {
+      return futsal.name!.toLowerCase().contains(searchQuery.toLowerCase()) &&
+             futsal.price! >= priceRange.start &&
+             futsal.price! <= priceRange.end;
+    }).toList();
+
+    state = state.copyWith(futsals: filteredFutsals);
   }
 
   void resetMessage(bool value) {

@@ -5,6 +5,7 @@ import 'package:my_arena/config/router/app_routes.dart';
 import 'package:my_arena/core/widget/button.dart';
 import 'package:my_arena/core/widget/passwordtextformfield.dart';
 import 'package:my_arena/core/widget/textformfield.dart';
+import 'package:my_arena/features/auth/presentation/view_model/auth_view_model.dart';
 
 class ResetPasswordView extends ConsumerStatefulWidget {
   const ResetPasswordView({super.key});
@@ -40,6 +41,7 @@ class _ResetPasswordViewState extends ConsumerState<ResetPasswordView> {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final number = ModalRoute.of(context)!.settings.arguments;
     // final isLoading = ref.watch(authViewModelProvider).isLoading;
     return Scaffold(
       body: SafeArea(
@@ -63,7 +65,7 @@ class _ResetPasswordViewState extends ConsumerState<ResetPasswordView> {
                   height: 10,
                 ),
                 const Text(
-                  'Check your email for OTP',
+                  'Check your number for OTP',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
                 Form(
@@ -113,13 +115,14 @@ class _ResetPasswordViewState extends ConsumerState<ResetPasswordView> {
                           child: MAElevatedButton(
                             onPressed: () async {
                               if (key.currentState!.validate()) {
-                                // await ref
-                                //     .read(authViewModelProvider.notifier)
-                                //     .loginUser(
-                                //       context,
-                                //       emailController.text,
-                                //       passwordController.text,
-                                //     );
+                                await ref
+                                    .read(authViewModelProvider.notifier)
+                                    .resetPassword(
+                                      context,
+                                      number.toString(),
+                                      otpController.text,
+                                      passwordController.text,
+                                    );
                               }
                             },
                             text: 'Change',

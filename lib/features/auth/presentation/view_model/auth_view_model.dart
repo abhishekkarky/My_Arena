@@ -349,6 +349,10 @@ class AuthViewModel extends StateNotifier<AuthState> {
             showMessage: true,
             error: null,
           );
+          showMySnackBar(
+            message: success,
+            context: context,
+          );
           Navigator.popAndPushNamed(context, AppRoute.loginRoute);
         },
       );

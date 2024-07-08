@@ -1,7 +1,9 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
+import 'package:khalti_flutter/khalti_flutter.dart';
 import 'package:multi_select_flutter/chip_display/multi_select_chip_display.dart';
 import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
@@ -314,7 +316,7 @@ class _IndividualFutsalViewState extends ConsumerState<IndividualFutsalView> {
                       hintStyle: const TextStyle(color: Colors.black),
                       hintText: "Select Date",
                       filled: true,
-                      fillColor: const Color(0xFFE5E5E5),
+                      fillColor: Colors.grey[300],
                       focusedBorder: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(
                           Radius.circular(50),
@@ -380,23 +382,26 @@ class _IndividualFutsalViewState extends ConsumerState<IndividualFutsalView> {
                         .map((time) => MultiSelectItem<String>(time, time))
                         .toList(),
                     title: const Text("Times"),
-                    selectedColor: Colors.black,
+                    backgroundColor: isDarkMode ? Colors.black : Colors.white,
+                    selectedColor: isDarkMode ? Colors.white : Colors.black,
                     decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.1),
+                      color: isDarkMode
+                          ? Colors.white.withOpacity(0.1)
+                          : Colors.black.withOpacity(0.1),
                       borderRadius: const BorderRadius.all(Radius.circular(40)),
                       border: Border.all(
                         color: Colors.transparent,
                         width: 2,
                       ),
                     ),
-                    buttonIcon: const Icon(
+                    buttonIcon: Icon(
                       Icons.access_time,
-                      color: Colors.black,
+                      color: isDarkMode ? Colors.white : Colors.black,
                     ),
-                    buttonText: const Text(
+                    buttonText: Text(
                       "Select Time",
                       style: TextStyle(
-                        color: Colors.black,
+                        color: isDarkMode ? Colors.white : Colors.black,
                         fontSize: 16,
                       ),
                     ),
@@ -406,6 +411,7 @@ class _IndividualFutsalViewState extends ConsumerState<IndividualFutsalView> {
                       });
                     },
                     chipDisplay: MultiSelectChipDisplay(
+                      chipColor: isDarkMode ? Colors.black : Colors.white,
                       onTap: (value) {
                         setState(() {
                           selectedTimes.remove(value);
@@ -455,14 +461,55 @@ class _IndividualFutsalViewState extends ConsumerState<IndividualFutsalView> {
                       ),
                       TextButton(
                         onPressed: () async {
-                          final bookingData = {
-                            'futsal': futsal.futsalId,
-                            'date':
-                                selectedDate?.toIso8601String().split('T')[0],
-                            'timeSlot': selectedTimes,
-                            'paid': "true"
-                          };
-                          await createBooking(bookingData);
+                          KhaltiScope.of(context).pay(
+                            config: PaymentConfig(
+                              amount: futsal.price!.toInt() * 100,
+                              productIdentity: "Futsal Ground",
+                              productName: futsal.name.toString(),
+                            ),
+                            onSuccess: (successModel) async {
+                              final bookingData = {
+                                'futsal': futsal.futsalId,
+                                'date': selectedDate
+                                    ?.toIso8601String()
+                                    .split('T')[0],
+                                'timeSlot': selectedTimes,
+                                'paid': "true"
+                              };
+                              await createBooking(bookingData);
+                            },
+                            onFailure: (failureModel) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    failureModel.toString(),
+                                    style: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  backgroundColor: Colors.red,
+                                  duration: const Duration(seconds: 3),
+                                  behavior: SnackBarBehavior.floating,
+                                ),
+                              );
+                            },
+                            onCancel: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Payment Cancelled',
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  backgroundColor: Colors.red,
+                                  duration: Duration(seconds: 3),
+                                  behavior: SnackBarBehavior.floating,
+                                ),
+                              );
+                            },
+                          );
                         },
                         child: Text(
                           "Yes",

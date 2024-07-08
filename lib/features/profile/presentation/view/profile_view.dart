@@ -280,10 +280,10 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
 
               /// -- MENU
               ProfileMenuWidget(
-                title: "Favourite List",
-                subTitle: "Your favourite list will appear here",
-                icon: FontAwesomeIcons.solidHeart,
-                iconColor: Colors.red,
+                title: "FAQs",
+                subTitle: "All your queries are listed here.",
+                icon: FontAwesomeIcons.question,
+                iconColor: isDark ? Colors.white : Colors.black,
                 onPress: () {
                   Navigator.pushNamed(context, AppRoute.favouritesRoute);
                 },

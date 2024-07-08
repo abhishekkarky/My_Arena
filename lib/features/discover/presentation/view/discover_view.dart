@@ -19,7 +19,6 @@ class DiscoverView extends ConsumerStatefulWidget {
 class _DiscoverViewState extends ConsumerState<DiscoverView> {
   final TextEditingController searchController = TextEditingController();
   RangeValues priceRange = const RangeValues(1000, 2000);
-  final List<bool> _favorites = [false, false];
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +82,12 @@ class _DiscoverViewState extends ConsumerState<DiscoverView> {
                       const SizedBox(height: 16),
                       MAElevatedButton(
                         onPressed: () {
-                          print("price range: $priceRange");
+                          ref
+                              .read(futsalViewModelProvider.notifier)
+                              .applyFilters(
+                                searchController.text,
+                                priceRange,
+                              );
                           Navigator.pop(context);
                         },
                         text: 'Apply Filters',
@@ -160,16 +164,26 @@ class _DiscoverViewState extends ConsumerState<DiscoverView> {
               const SizedBox(height: 15),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text('Available Futsal Grounds',
+                child: Row(
+                  children: [
+                    Text(
+                      'Available Futsal Grounds',
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
                         color: isDarkMode
                             ? Colors.white
                             : ThemeConstant.buttonColor,
-                      )),
+                      ),
+                    ),
+                    const Spacer(),
+                    InkWell(
+                      onTap: () {
+                        ref.read(futsalViewModelProvider.notifier).resetState();
+                      },
+                      child: const FaIcon(FontAwesomeIcons.refresh),
+                    )
+                  ],
                 ),
               ),
               const SizedBox(height: 10),
@@ -261,17 +275,6 @@ class _DiscoverViewState extends ConsumerState<DiscoverView> {
                   ],
                 ),
               ),
-              // IconButton(
-              //   icon: Icon(
-              //     Icons.favorite,
-              //     color: _favorites[index] ? Colors.red : Colors.grey,
-              //   ),
-              //   onPressed: () {
-              //     setState(() {
-              //       _favorites[index] = !_favorites[index];
-              //     });
-              //   },
-              // ),
             ],
           ),
         ),
