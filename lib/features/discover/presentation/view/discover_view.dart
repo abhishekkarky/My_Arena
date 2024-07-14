@@ -229,9 +229,8 @@ class _DiscoverViewState extends ConsumerState<DiscoverView> {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: Image.asset(
-                  'assets/images/ground.png',
-                  // imageUrl,
+                child: Image.network(
+                  imageUrl,
                   width: 130,
                   height: 130,
                   fit: BoxFit.cover,

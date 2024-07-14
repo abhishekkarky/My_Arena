@@ -3,8 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:my_arena/core/widget/appbar.dart';
-import 'package:my_arena/core/widget/textformfield.dart';
 import 'package:my_arena/features/bookings/presentation/view_model/booking_view_model.dart';
+
+final searchQueryProvider = StateProvider<String>((ref) => '');
 
 class BookingsView extends ConsumerStatefulWidget {
   const BookingsView({super.key});
@@ -15,15 +16,22 @@ class BookingsView extends ConsumerStatefulWidget {
 
 class _BookingsViewState extends ConsumerState<BookingsView> {
   final ScrollController _scrollController = ScrollController();
-  final _gap = const SizedBox(
-    height: 5,
-  );
+  final TextEditingController searchController = TextEditingController();
+  final _gap = const SizedBox(height: 5);
 
   @override
   Widget build(BuildContext context) {
     final bookingState = ref.watch(bookingViewModelProvider);
+    final searchQuery = ref.watch(searchQueryProvider);
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final searchController = TextEditingController();
+
+    final filteredBookings = bookingState.bookingsData.where((booking) {
+      final futsalName = booking.futsal?['name']?.toLowerCase() ?? '';
+      final location = booking.futsal?['location']?.toLowerCase() ?? '';
+      return futsalName.contains(searchQuery.toLowerCase()) ||
+          location.contains(searchQuery.toLowerCase());
+    }).toList();
+
     return NotificationListener(
       onNotification: (notification) {
         if (notification is ScrollEndNotification) {
@@ -39,15 +47,23 @@ class _BookingsViewState extends ConsumerState<BookingsView> {
           context: context,
         ),
         body: SingleChildScrollView(
+          controller: _scrollController,
           child: Column(
             children: [
               Padding(
                 padding: const EdgeInsets.all(10),
-                child: maTextFormField(
-                  isDarkMode: isDarkMode,
+                child: TextField(
                   controller: searchController,
-                  hintText: 'Search Bookings',
-                  suffixIcon: FontAwesomeIcons.magnifyingGlass,
+                  onChanged: (value) {
+                    ref.read(searchQueryProvider.notifier).state = value;
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Search Bookings',
+                    suffixIcon: const Icon(FontAwesomeIcons.magnifyingGlass),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
                 ),
               ),
               _gap,
@@ -55,15 +71,14 @@ class _BookingsViewState extends ConsumerState<BookingsView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _gap,
-                  ...bookingState.bookingsData
-                      .map((booking) => _buildFutsalCard(
-                            imageUrl: booking.futsal?['futsalImageUrl'] ?? '',
-                            name: booking.futsal?['name'] ?? '',
-                            rating: booking.futsal?['rating'] ?? 0,
-                            location: booking.futsal?['location'] ?? '',
-                            bookedDate: booking.date.toString(),
-                            bookedTime: booking.timeSlot.toString(),
-                          )),
+                  ...filteredBookings.map((booking) => _buildFutsalCard(
+                        imageUrl: booking.futsal?['futsalImageUrl'] ?? '',
+                        name: booking.futsal?['name'] ?? '',
+                        rating: booking.futsal?['rating'] ?? 0,
+                        location: booking.futsal?['location'] ?? '',
+                        bookedDate: booking.date.toString(),
+                        bookedTime: booking.timeSlot.toString(),
+                      )),
                 ],
               ),
             ],
@@ -99,9 +114,8 @@ class _BookingsViewState extends ConsumerState<BookingsView> {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: Image.asset(
-                'assets/images/ground.png',
-                // imageUrl,
+              child: Image.network(
+                imageUrl,
                 width: 130,
                 height: 130,
                 fit: BoxFit.cover,

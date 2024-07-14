@@ -160,10 +160,10 @@ class _IndividualFutsalViewState extends ConsumerState<IndividualFutsalView> {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(5),
-                child: Image.asset(
-                  'assets/images/ground.png',
-                  height: 200,
-                  width: MediaQuery.sizeOf(context).width * 1,
+                child: Image.network(
+                  futsal.futsalImageUrl ?? 'https://picsum.photos/200/300',
+                  width: double.infinity,
+                  height: MediaQuery.of(context).size.height * 0.2,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -461,6 +461,24 @@ class _IndividualFutsalViewState extends ConsumerState<IndividualFutsalView> {
                       ),
                       TextButton(
                         onPressed: () async {
+                          if (selectedDate == null || selectedTimes.isEmpty) {
+                            Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  'Please select date and time',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                backgroundColor: Colors.red,
+                                duration: Duration(seconds: 3),
+                                behavior: SnackBarBehavior.floating,
+                              ),
+                            );
+                            return;
+                          }
                           KhaltiScope.of(context).pay(
                             config: PaymentConfig(
                               amount: futsal.price!.toInt() * 100,

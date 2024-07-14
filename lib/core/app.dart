@@ -13,7 +13,7 @@ class App extends ConsumerWidget {
     final isDarkTheme = ref.watch(isDarkThemeProvider);
 
     return KhaltiScope(
-      publicKey: 'key 37ac1d14b13a48d2b2a153a4046b1c32',
+      publicKey: 'Key live_secret_key_20abb7a65f80466596bc1cc062e9b4e0',
       builder: (context, navigatorKey) => MaterialApp(
         navigatorKey: navigatorKey,
         theme: AppTheme.getApplicationTheme(isDarkTheme),
